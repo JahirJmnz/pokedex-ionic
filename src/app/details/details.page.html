@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-capitalize">{{ details?.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="details">
+    <div class="image-wrapper">
+      <img [src]="details.images[3]" style="height: 250px; display: block; margin: 0 auto;">
+    </div>
+
+    <!-- Ion card -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-capitalize">#{{ details.id }} {{ details.name }}
+          <ion-chip color="primary" *ngFor="let t of details.types"> 
+              <ion-label>{{ t.type.name }}</ion-label>
+          </ion-chip>
+        </ion-card-title>
+        <ion-card-subtitle class="ion-text-capitalize"> {{ details.weight }} lbs</ion-card-subtitle>
+      </ion-card-header>
+
+      <!-- Aquí mostramos todos los datos de la API de Pokémon -->
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item>
+            <ion-label>Peso</ion-label>
+            <ion-text>{{ details.weight }} lbs</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label>Altura</ion-label>
+            <ion-text>{{ details.height }} m</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label>Experiencia base</ion-label>
+            <ion-text>{{ details.base_experience }}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label>Habilidades</ion-label>
+            <ion-text>
+              <ul>
+                <li *ngFor="let ability of details.abilities">{{ ability.ability.name }}</li>
+              </ul>
+            </ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label>Formas</ion-label>
+            <ion-text>
+              <ul>
+                <li *ngFor="let form of details.forms">{{ form.name }}</li>
+              </ul>
+            </ion-text>
+          </ion-item>
+          <!-- Puedes continuar agregando más detalles según lo necesites -->
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+
+

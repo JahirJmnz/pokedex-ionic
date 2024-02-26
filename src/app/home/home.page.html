@@ -1,20 +1,59 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar color="primary">
     <ion-title>
-      Blank
+      Pokédex
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <!-- P3 1. Añadir la searchbar -->
+  <ion-searchbar placeholder="Buscar pokémon" (ionChange)="onSearchChange($event)"></ion-searchbar>
+  <!-- Se declara una lista -->
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-list *ngIf="pokemon.length == 0">
+    <ion-item *ngFor="let i of [1,2,3,4,5]">
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+        <ion-label class="ion-text-capitalize">
+          <h2>
+            <ion-skeleton-text animated style="width: 50%;"></ion-skeleton-text>
+          </h2>
+          <p>
+            <ion-skeleton-text animated style="width: 50%;"></ion-skeleton-text>
+          </p>
+        </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <!-- Se declara un ngFor de pokemons para que cargue los 25 elementos definidos
+         Se hace un router link al "Index" de cada pokemon, lo que ayude dirigirse
+         a la pantalla de detalles -->
+    <ion-item *ngFor="let poke of pokemon;" [routerLink]="poke.pokeIndex">
+      <!-- Esto define el circulo del avatar (ion-avatar) -->
+      <ion-avatar slot="start">
+        <!-- Aquí se obtiene la imagen y se le da un fondo gris al circulo del avatar -->
+        <img [src]="poke.image" style="background: #F2F2F2;">
+      </ion-avatar>
+      <!-- Se hace un label para encapsular el nombre y el número del pokemon -->
+      <ion-label class="ion-text-capitalize">
+        <!--Se aplica la clase capitalize para que convierta la primera letra del nombre
+           en mayuscula-->
+        <h2>{{ poke.name }}</h2>
+        <!-- Se añade como texto un hashtag # y se obtiene el indice (número) de cada pokemon -->
+        <p>#{{ poke.pokeIndex }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- P2 1. Añadir infinite-scroll con loadPokemon, si se hace scroll entonces se ejecuta
+       el evento de cargar 25 datos/pokemones mas -->
+  <ion-infinite-scroll (ionInfinite)="loadPokemon(true, $event)">
+      <!-- Se añade la animación de cargando con el texto de "Cargando mas pokémones" -->
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando mas pokémones">
+
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
